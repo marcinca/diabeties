@@ -15,6 +15,9 @@ if ( isset($_REQUEST['token']) && $_REQUEST['token'] !== getenv('SLACK_TOKEN') )
 
 $cookie_name  = "standup-rand";
 $names_value = filter_input(INPUT_GET, 'names', FILTER_SANITIZE_STRING);
+// $channel_id = filter_input(INPUT_GET, 'channel_id', FILTER_SANITIZE_STRING);
+// $user_name = filter_input(INPUT_GET, 'user_name', FILTER_SANITIZE_STRING);
+// $command = filter_input(INPUT_GET, 'command', FILTER_SANITIZE_STRING);
 
 $emoji_support = filter_input(INPUT_GET, 'emojis', FILTER_SANITIZE_NUMBER_INT);
 $html_format = filter_input(INPUT_GET, 'html', FILTER_SANITIZE_NUMBER_INT) ?: 1;
@@ -61,5 +64,13 @@ $output = "```\n" . $output . '```';
 if ($html_format) {
     echo nl2br($output);
 } else {
-    echo $output;
+    echo json_encode({
+        "response_type": "in_channel",
+        "text": "Good morning, enjoy your stand-up",
+        "attachments": [
+           {
+              "text": $output
+           }
+        ]
+    });
 }
