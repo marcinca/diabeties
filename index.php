@@ -22,12 +22,17 @@ $names_value = filter_input(INPUT_GET, 'names', FILTER_SANITIZE_STRING);
 $emoji_support = filter_input(INPUT_GET, 'emojis', FILTER_SANITIZE_NUMBER_INT);
 $html_format = filter_input(INPUT_GET, 'html', FILTER_SANITIZE_NUMBER_INT) ?: 1;
 
-if ( !isset($_COOKIE[$cookie_name]) && empty($names_value) && empty($_REQUEST['text']) ) {
-    exit('For slack use add comma separated names as a parameter. For WWW add names url parameter with comma separated names');
-}
+$names_param = getopt(null,["names::"]);
 
+if ( !isset($_COOKIE[$cookie_name]) && empty($names_value) && empty($_REQUEST['text']) && empty($names_param) ) {
+    exit('For slack use add comma separated names as a parameter, commandline --names= parameter, for WWW simply add ?names= url param with comma separated names');
+}
 if ( !empty($_REQUEST['text']) ) {
     $stringArray = explode(',', $_REQUEST['text']);
+    $html_format = false;
+}
+if ( !empty($names_param) ) {
+    $stringArray = $names_param;
     $html_format = false;
 }
 
@@ -64,13 +69,12 @@ $output = "```\n" . $output . '```';
 if ($html_format) {
     echo nl2br($output);
 } else {
-    echo json_encode({
-        "response_type": "in_channel",
-        "text": "Good morning, enjoy your stand-up",
-        "attachments": [
-           {
-              "text": $output
-           }
+    header('Content-Type: application/json');
+    echo json_encode([
+        "response_type" => "in_channel",
+        "text" => "Good morning, enjoy your stand-up",
+        "attachments" => [
+            ["text" => $output]
         ]
-    });
+    ]);
 }
