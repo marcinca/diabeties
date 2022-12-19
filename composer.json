@@ -1,11 +1,19 @@
 {
+    "name": "marcin/standup-randomizer",
+    "description": "Standup randomiser",
+    "type": "project",
+    "license": "GPL",
     "autoload": {
         "psr-4": {
-            "": "src/"
+            "Marcin\\StandupRandomizer\\": "src/"
         }
     },
-    "require": {
-        "rmccue/requests": "^1.7",
-        "vlucas/phpdotenv": "^4.1"
-    }
+    "authors": [
+        {
+            "name": "Marcin Calka",
+            "email": "marcin.calka@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
 }
