@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/marcinca/standup-randomizer#readme",
   "dependencies": {
-    "@slack/web-api": "^6.8.0",
+    "@slack/web-api": "^6.9.1",
     "body-parser": "^1.20.1",
     "date-format": "^4.0.14",
     "express": "^4.18.2",
